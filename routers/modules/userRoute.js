@@ -1,11 +1,8 @@
+
+const users = require('./../../model/users')
+const Joi = require('joi')
+
 module.exports = [
-    {
-        method: 'GET',
-        path: '/',
-        handler: function (req, reply) {
-            return `<h1>WELCOME</h1>`
-        }
-    },
     {
         method: 'GET',
         path: '/api/v1/users',
