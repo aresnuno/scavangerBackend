@@ -1,8 +1,8 @@
 const hapi = require('hapi')
 const mongoose = require('mongoose')
 const server = hapi.server({
-    port: 4000,
-    host: 'localhost'
+    port: process.env.YOUR_PORT || process.env.PORT || 80,
+    host: process.env.host || '0.0.0.0'
 })
 const users = require('./model/users')
 const caters = require('./model/caters')
