@@ -5,8 +5,11 @@ const mongoose = require('mongoose')
 
 // setting up server
 const server = hapi.server({
-    port: process.env.YOUR_PORT || process.env.PORT || 80,
-    host: process.env.host || '0.0.0.0'
+    port: process.env.YOUR_PORT || process.env.PORT || 5000,
+    host: process.env.host || '0.0.0.0',
+    routes: {
+        "cors": true
+    }
 })
 
 // swagger
