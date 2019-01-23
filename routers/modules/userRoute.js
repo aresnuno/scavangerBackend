@@ -1,14 +1,13 @@
 
 const users = require('./../../model/users')
+const userController = require('./../../controllers/userController')
 const Joi = require('joi')
 
 module.exports = [
     {
         method: 'GET',
-        path: '/api/v1/users',
-        handler: function (req, reply) {
-            return users.find()
-        },
+        path: '/api/v1/getAllUsers',
+        handler: userController.getAllUser,
         options: {
             description: 'Get All Users',
             notes: 'Returns all Users',
@@ -17,22 +16,8 @@ module.exports = [
     },
     {
         method: 'POST',
-        path: '/api/v1/users',
-        handler: function (req, reply) {
-            const {
-                e_id,
-                e_name,
-                e_foodType,
-                e_alergies = false
-            } = req.payload
-            const user = new users({
-                e_id,
-                e_name,
-                e_foodType,
-                e_alergies
-            })
-            return user.save()
-        },
+        path: '/api/v1/addUser',
+        handler: userController.addUser,
         options: {
             description: 'Create A User',
             notes: 'Create A User',
@@ -50,6 +35,23 @@ module.exports = [
                         .description('type of the cattering healthy or normal'),
                     e_alergies: Joi.boolean()
                         .description('is the employee have alergies or nnot')
+                }
+            }
+        },
+    },
+    {
+        method: 'DELETE',
+        path: '/api/v1/removeUser',
+        handler: userController.removeUserById,
+        options: {
+            description: 'Remove A User by _Id',
+            notes: 'Remove A User by _Id',
+            tags: ['api', 'User'],
+            validate: {
+                payload: {
+                    id: Joi.string()
+                        .required()
+                        .description('the employee')
                 }
             }
         },

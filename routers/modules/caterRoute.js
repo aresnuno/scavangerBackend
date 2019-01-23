@@ -1,15 +1,14 @@
 
     const Joi = require('joi')
     const caters = require('./../../model/caters')
+    const caterController = require('../../controllers/caterController')
     const moment = require('moment');
 
 module.exports = [
     {
         method: 'GET',
-        path: '/api/v1/cater',
-        handler: function(req, reply) {
-            return caters.find()
-        },
+        path: '/api/v1/getAllCater',
+        handler: caterController.getAllCater,
         options: {
             description: 'Get All Cater Day',
             notes: 'Returns all Catering Array',
@@ -19,57 +18,20 @@ module.exports = [
     {
         method: 'POST',
         path: '/api/v1/cronCater',
-        handler: function(req, reply) {
-            const today = moment().format('DD/MM/YYYY')
-            return new Promise((resolve) => {
-                caters.findOne({cater_date: today}, function(err, res){
-                    if (err) {
-                        resolve (err)
-                    }
-                    if (!res) {
-                        const { cater_date = today, cater_giver = []} = req.payload
-                        const cater = new caters({
-                            cater_date,
-                            cater_giver
-                        })
-                        resolve (cater.save())
-                    } else {
-                        const errResponse = {
-                            success: false,
-                            errCode: 'SCVG00000001',
-                            errMsg: 'Cater Already Exist'
-                        }
-                        resolve (errResponse)
-                    }
-                })
-            })
-        },
+        handler: caterController.cronCater,
         options: {
             description: 'Create A Cater',
             notes: 'Create A new Cater',
             tags: ['api', 'Cater'],
-            validate: {
-                payload: {
-                    cater_date : Joi.string()
-                            .description('the date of the cater')
-                }
-            }
         },
     },
     {
         method: 'POST',
-        path: '/api/v1/addCaterGiver',
-        handler: function(req, reply) {
-            const { cater_date, cater_giver} = req.payload
-            const giver_status = {
-              taken: false, 
-              taker: null
-            }
-            return caters.update({'cater_date': cater_date}, {$push: {'cater_giver': {giver: cater_giver,  giver_status}}})
-        },
+        path: '/api/v1/giveCater',
+        handler: caterController.addCaterGiver,
         options: {
-            description: 'Add User To The Cater',
-            notes: 'Add User To The Cater',
+            description: 'Give Cater',
+            notes: 'Add User To The Cater Giver',
             tags: ['api', 'Cater'],
             validate: {
                 payload: {
@@ -86,10 +48,7 @@ module.exports = [
     {
         method: 'POST',
         path: '/api/v1/takeCater',
-        handler: function(req, reply) {
-            const { cater_date, giver_id, taker} = req.payload
-            return caters.findOneAndUpdate({'cater_date': cater_date, 'cater_giver._id': giver_id}, {'cater_giver.$.giver_status.taken': true, 'cater_giver.$.giver_status.taker': taker})
-        },
+        handler: caterController.takeCater,
         options: {
             description: 'Take A Cater',
             notes: 'Take A Cater',
