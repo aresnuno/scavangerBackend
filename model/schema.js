@@ -16,7 +16,6 @@ const giver_status = new Schema({
 })
 
 const CaterSchema = new Schema({
-    cater_id: String,
     cater_date: String,
     cater_giver: [{
         giver: UsersSchema,

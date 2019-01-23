@@ -1,5 +1,6 @@
 //base import
 const hapi = require('hapi')
+const HapiCron = require('hapi-cron');
 const mongoose = require('mongoose')
 
 
@@ -43,6 +44,23 @@ const init = async () => {
         {
             plugin: HapiSwagger,
             options: swaggerOptions
+        },
+        {
+            plugin: HapiCron,
+            options: {
+                jobs: [{
+                    name: 'caterMaker',
+                    time: '0 0 * * 1-6',
+                    timezone: 'Asia/Jakarta',
+                    request: {
+                        method: 'GET',
+                        url: '/'
+                    },
+                    onComplete: (res) => {
+                        console.log(res); // 'hello world'
+                    }
+                }]
+            }
         }
     ]);
     

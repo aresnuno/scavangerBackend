@@ -1,6 +1,7 @@
 
     const Joi = require('joi')
     const caters = require('./../../model/caters')
+    const moment = require('moment');
 
 module.exports = [
     {
@@ -17,15 +18,31 @@ module.exports = [
     },
     {
         method: 'POST',
-        path: '/api/v1/cater',
+        path: '/api/v1/cronCater',
         handler: function(req, reply) {
-            const { cater_id, cater_date, cater_giver = []} = req.payload
-            const cater = new caters({
-                cater_id,
-                cater_date,
-                cater_giver
+            const today = moment().format('DD/MM/YYYY')
+            return new Promise((resolve) => {
+                caters.findOne({cater_date: today}, function(err, res){
+                    if (err) {
+                        resolve (err)
+                    }
+                    if (!res) {
+                        const { cater_date = today, cater_giver = []} = req.payload
+                        const cater = new caters({
+                            cater_date,
+                            cater_giver
+                        })
+                        resolve (cater.save())
+                    } else {
+                        const errResponse = {
+                            success: false,
+                            errCode: 'SCVG00000001',
+                            errMsg: 'Cater Already Exist'
+                        }
+                        resolve (errResponse)
+                    }
+                })
             })
-            return cater.save()
         },
         options: {
             description: 'Create A Cater',
@@ -33,11 +50,7 @@ module.exports = [
             tags: ['api', 'Cater'],
             validate: {
                 payload: {
-                    cater_id : Joi.string()
-                            .required()
-                            .description('the id of the cater'),
                     cater_date : Joi.string()
-                            .required()
                             .description('the date of the cater')
                 }
             }
