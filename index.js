@@ -3,11 +3,10 @@ const hapi = require('hapi')
 const HapiCron = require('hapi-cron');
 const mongoose = require('mongoose')
 
-
 // setting up server
 const server = hapi.server({
-    port: process.env.YOUR_PORT || process.env.PORT || 5000,
-    host: process.env.host || '0.0.0.0',
+    port: process.env.OPENSHIFT_NODEJS_PORT || 8080,
+    host: process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1",
     routes: {
         "cors": true
     }
