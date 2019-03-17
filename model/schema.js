@@ -23,6 +23,12 @@ const CaterSchema = new Schema({
     }]
 })
 
+const TwitterSchema = new Schema({
+    e_id: String,
+    e_name: String,
+    e_status: String,
+})
+
 module.exports = {
-    CaterSchema, UsersSchema
+    CaterSchema, UsersSchema, TwitterSchema
 }
