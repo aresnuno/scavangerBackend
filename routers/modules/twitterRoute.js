@@ -38,7 +38,7 @@ module.exports = [
         },
     },
     {
-        method: 'DELETE',
+        method: 'POST',
         path: '/api/v1/removeTwit',
         handler: twitterController.removeTwitById,
         options: {
