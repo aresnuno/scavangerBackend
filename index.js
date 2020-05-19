@@ -5,8 +5,8 @@ const mongoose = require('mongoose')
 
 // setting up server
 const server = hapi.server({
-    port: process.env.OPENSHIFT_NODEJS_PORT || 8080,
-    host: process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1",
+    port: process.env.YOUR_PORT || process.env.PORT || 80,
+    host: process.env.OPENSHIFT_NODEJS_IP || "0.0.0.0",
     routes: {
         "cors": true
     }
