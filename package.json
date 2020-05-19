@@ -10,14 +10,14 @@
   "author": "ares",
   "license": "ISC",
   "dependencies": {
-    "hapi": "^17.8.1",
-    "hapi-cron": "^1.0.5",
-    "hapi-swagger": "^9.3.0",
-    "inert": "^5.1.2",
+    "hapi": "^17.8.5",
+    "hapi-cron": "^1.1.0",
+    "hapi-swagger": "^9.4.2",
+    "inert": "^5.1.3",
     "joi": "^14.3.1",
-    "moment": "^2.24.0",
-    "mongoose": "^5.4.3",
-    "nodemon": "^1.18.9",
+    "moment": "^2.25.3",
+    "mongoose": "^5.9.15",
+    "nodemon": "^1.19.4",
     "vision": "^5.4.4"
   }
 }
